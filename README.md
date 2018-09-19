@@ -34,12 +34,13 @@
 
 ### Back-end
 
-#### stack
+#### 쓸거?기술?적용?뭐지?
 
 * AWS Lambda
 * dynamoDB
 * nodejs
 * API-gateway
+* serverless
 
 #### 필요 API
 * 회원가입
