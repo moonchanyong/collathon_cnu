@@ -15,7 +15,10 @@ plugins:
   - serverless-dynamodb-local
   - serverless-offline
 custom:
-  tableName: 'users-table-${self:provider.stage}'
+  userTableName: 'users-table-${self:provider.stage}'
+  franchiseeTableName: 'franchisee-table-${self:provider.stage}'
+  orderTableName: 'order-table-${self:provider.stage}'
+
   dynamodb:
     start:
       migrate: true
@@ -43,7 +46,7 @@ provider:
       Resource:
         - { "Fn::GetAtt": ["UsersDynamoDBTable", "Arn" ] }
   environment:
-    USERS_TABLE: ${self:custom.tableName}
+    USERS_TABLE: ${self:custom.userTableName}
 # you can overwrite defaults here
 #  stage: dev
 #  region: us-east-1
@@ -151,4 +154,34 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-        TableName: ${self:custom.tableName}
+        TableName: ${self:custom.userTableName}
+    FranchiseeDynamoDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: franchiseeId
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: franchiseeId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.franchiseeTableName}
+    OrderDynamoDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: orderId
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: orderId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.orderTableName}
